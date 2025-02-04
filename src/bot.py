@@ -14,6 +14,7 @@ CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
 ROLE_ID = int(os.getenv("ROLE_ID"))
 TIMEZONE = os.getenv("TIMEZONE", "Asia/Jakarta")
 SCHEDULE_TIME = os.getenv("SCHEDULE_TIME", "16:30")  # Format: HH:MM
+LINK = os.getenv("LINK")
 
 intents = discord.Intents.default()
 intents.members = True  # 
@@ -64,7 +65,7 @@ async def create_thread():
             message = await channel.send(f"🔔 Hi{role.mention}! Don't forget to fill in your Daily Log for today!")
             thread = await message.create_thread(name=f"Log {datetime.now().strftime('%A, %-d %b %Y')}")
         
-        await thread.send("📋 **Format:**\n- Done\n- In progress\n- Not Started\n> Or you can [generate here](https://notion-standup-generator-xom75utdta-as.a.run.app/)")
+        await thread.send(f"📋 **Format:**\n- Done\n- In progress\n- Not Started\n> Or you can [generate here]({LINK})")
         print(f"Thread {thread.name} already created!")
     except Exception as e:
         print(f"Failed to create thread: {str(e)}")

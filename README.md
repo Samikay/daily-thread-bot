@@ -2,7 +2,6 @@
 
 An automated Discord bot to create daily threads on weekdays (Monday-Friday) at specified times. Threads will automatically tag a designated role and provide a report template.
 
-----
 ## Features ✨
 - Automated daily thread creation in specified channels.
 - Role tagging functionality.
@@ -19,7 +18,6 @@ An automated Discord bot to create daily threads on weekdays (Monday-Friday) at 
   - `Send Messages`
   - `Mention @everyone/@roles`
 
-----
 ## Installation 🛠️
 
 ### 1. Clone Repository
@@ -60,7 +58,6 @@ In [Discord Developer Portal](https://discord.com/developers/applications):
 - SERVER MEMBERS INTENT
 - MESSAGE CONTENT INTENT (optional)
 
-----
 ## Usage 🚀
 ### Run Without Docker
 ```bash

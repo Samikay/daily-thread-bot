@@ -42,6 +42,7 @@ async def on_ready():
         minute=minute
     )
     scheduler.start()
+    create_thread()
     print(f"Scheduled activated!")
 
 async def create_thread():
@@ -58,9 +59,9 @@ async def create_thread():
         if isinstance(channel, discord.ForumChannel):
             thread = await channel.create_thread(
                 name=f"Log {datetime.now().strftime('%A, %-d %b %Y')}",
-                content=f"{role.mention} Please fill the daily log here!",
-                auto_archive_duration=1440
+                content=f"{role.mention} Please fill the daily log here!"
             )
+            #auto_archive_duration=1440
         else:
             message = await channel.send(f"🔔 Hi{role.mention}! Don't forget to fill in your Daily Log for today!")
             thread = await message.create_thread(name=f"Log {datetime.now().strftime('%A, %-d %b %Y')}")

@@ -37,39 +37,39 @@ async def on_ready():
     scheduler.add_job(
         create_thread,
         "cron",
-        day_of_week="mon-fri",
         hour=hour,
         minute=minute
     )
     scheduler.start()
-    create_thread()
-    print(f"Scheduled activated!")
+    print(f"Attempting immediate thread creation...")
+    await create_thread()
+    print(f"Scheduler activated!")
+
 
 async def create_thread():
     channel = bot.get_channel(CHANNEL_ID)
-    role = channel.guild.get_role(ROLE_ID)
-    
-    # Validasi environment variables
-    if not channel or not role:
-        print("ERROR: Channel or Role cannot be found. Please check the environment variables!")
+
+    # Valid environment variable
+    if not channel:
+        print("ERROR: Channel cannot be found. Please check the environment variables!")
         return
-    
+
     try:
-        # Buat thread di forum/text channel
+        # Thread name = dd/mm/yy
+        thread_name = datetime.now().strftime("%d/%m/%y")
+
         if isinstance(channel, discord.ForumChannel):
             thread = await channel.create_thread(
-                name=f"Log {datetime.now().strftime('%A, %-d %b %Y')}",
-                content=f"{role.mention} Please fill the daily log here!"
+                name=thread_name,
+                content="🏌️ Daily golf time! Let's play: https://kindahardgolf.com/"
             )
-            #auto_archive_duration=1440
         else:
-            message = await channel.send(f"🔔 Hi{role.mention}! Don't forget to fill in your Daily Log for today!")
-            thread = await message.create_thread(name=f"Log {datetime.now().strftime('%A, %-d %b %Y')}")
-        
-        await thread.send(f"📋 **Format:**\n- Done\n- In progress\n- Not Started\n> Or you can [generate here]({LINK})")
-        print(f"Thread {thread.name} already created!")
+            message = await channel.send("🏌️ Daily golf time! Let's play: https://kindahardgolf.com/")
+            thread = await message.create_thread(name=thread_name)
+
+        print(f"Thread '{thread.name}' created successfully!")
     except Exception as e:
-        print(f"Failed to create thread: {str(e)}")
+        print(f"Error while creating thread: {e}")
 
 if __name__ == "__main__":
     bot.run(TOKEN)

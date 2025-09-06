@@ -8,10 +8,8 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Konfigurasi dari Environment Variables
 TOKEN = os.getenv("DISCORD_TOKEN")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
-ROLE_ID = int(os.getenv("ROLE_ID"))
 TIMEZONE = os.getenv("TIMEZONE", "Asia/Jakarta")
 SCHEDULE_TIME = os.getenv("SCHEDULE_TIME", "16:30")  # Format: HH:MM
 LINK = os.getenv("LINK")
@@ -27,7 +25,7 @@ bot = commands.Bot(
 
 @bot.event
 async def on_ready():
-    print(f"Bot is online! Ready to remind the team to fill daily log.")
+    print(f"Bot is online! Ready to create daily threads")
     
     # Parse waktu dari environment variable
     hour, minute = map(int, SCHEDULE_TIME.split(':'))
@@ -41,15 +39,16 @@ async def on_ready():
         minute=minute
     )
     scheduler.start()
-    print(f"Attempting immediate thread creation...")
-    await create_thread()
+    # Testing
+    #print(f"Attempting immediate thread creation...")
+    #await create_thread()
     print(f"Scheduler activated!")
 
 
 async def create_thread():
     channel = bot.get_channel(CHANNEL_ID)
 
-    # Valid environment variable
+    # Validate
     if not channel:
         print("ERROR: Channel cannot be found. Please check the environment variables!")
         return
@@ -64,7 +63,7 @@ async def create_thread():
                 content="🏌️ Daily golf time! Let's play: https://kindahardgolf.com/"
             )
         else:
-            message = await channel.send("🏌️ Daily golf time! Let's play: https://kindahardgolf.com/")
+            message = await channel.send("🏌️ Daily golf time " + thread_name + " <https://kindahardgolf.com/>")
             thread = await message.create_thread(name=thread_name)
 
         print(f"Thread '{thread.name}' created successfully!")
